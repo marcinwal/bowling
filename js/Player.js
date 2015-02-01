@@ -1,29 +1,39 @@
-var player;
-
-
-var Throw = function(){
-  this.pins = 10;
+//round object for bowling single round
+var Move = function(result) {
+  this.pins = result;
   this.strike = false;
 }
 
-Throw.prototype.is_strike(pins){
-  if (pins === 10)
+Move.prototype.is_strike = function() {
+  if (this.pins === 10)
   {
     this.strike = true;
   }
   else
   {
-    this.srtike = false;
+    this.strike = false;
   }
-}
+  return this.strike;
+};
 
-var Game = function(){
+//Game object for the whole bowling
+var Game = function() {
   this.score = 0;
-  this.frames = [];
-  this.round = 0;
-}
+  this.results = [];
+  this.moves = 0;
+};
 
-Game.prototype.start(){
+Game.prototype.init = function() {
   this.score = 0;
-}
+  this.moves = 0;
+};
 
+Game.prototype.is_end = function() {
+  return false;
+};
+
+Game.prototype.move = function(pins_hit) {
+   var move = new Move(pins_hit);
+   this.results.push(move);
+   this.moves += 1;    
+};
