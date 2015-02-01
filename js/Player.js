@@ -1,7 +1,6 @@
 //round object for bowling single round
 var Move = function(result) {
   this.pins = result;
-  this.strike = false;
 }
 
 Move.prototype.is_strike = function() {
@@ -34,6 +33,7 @@ Game.prototype.is_end = function() {
 
 Game.prototype.move = function(pins_hit) {
    var move = new Move(pins_hit);
+   console.log(move);
    this.results.push(move);
    this.moves += 1;    
 };
