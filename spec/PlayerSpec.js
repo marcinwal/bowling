@@ -6,7 +6,6 @@ describe("Player", function() {
   beforeEach(function() {
     game = new Game();
     frame1 = new Frame();
-    frame2 = new Frame();
   });
 
   describe('frames',function(){
@@ -27,11 +26,31 @@ describe("Player", function() {
       expect(frame1.is_strike()).toBe(true);
     });
 
-    it('should record a sparee',function(){
+    it('should record a spare',function(){
       frame1.throw(5);
       frame1.throw(10);
       expect(frame1.is_strike()).toBe(false);
       expect(frame1.is_spare()).toBe(true);
+    });
+  });
+
+  describe('game',function(){
+
+    it ('should record a throw',function(){
+      game.move(1);
+      expect(game.nextFrame).toBe(false);
+      expect(game.results.length).toBe(1);
+    });
+
+    it ('should recognize a strike',function(){
+      game.move(10);
+      expect(game.nextFrame).toBe(true);
+    });
+
+    it ('should close the frame after 2nd shot',function(){
+      game.move(1);
+      game.move(2);
+      expect(game.nextFrame).toBe(true);
     });
   });
 
