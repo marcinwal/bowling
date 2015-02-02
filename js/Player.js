@@ -24,6 +24,14 @@ Frame.prototype.throw = function(result){
   }
 };
 
+Frame.prototype.has_two = function(){
+  if ((this.pins1 !=null) && (this.pins2 !=null)){
+    return true;
+  }else{
+    return false;
+  }
+};
+
 Frame.prototype.is_spare = function(){
   if(this.pins2 === PINS)
   {
@@ -34,6 +42,7 @@ Frame.prototype.is_spare = function(){
   }  
   return this.spare;
 };
+
 
 Frame.prototype.is_strike = function() {
   if(this.pins1 === PINS)
@@ -73,11 +82,12 @@ Game.prototype.is_last_spare = function(){
 }
 
 Game.prototype.is_end = function() {
-  if((this.results.length >= REG_MOVES) && (!this.is_last_strike()))
+  if((this.results.length > REG_MOVES) && (!this.is_last_strike()))
     {return true;}
   if (this.results.length >= REG_MOVES + BONUS){
     return true;
   }
+
   return false;
 };
 
