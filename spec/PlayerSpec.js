@@ -28,7 +28,7 @@ describe("Player", function() {
 
     it('should record a spare',function(){
       frame1.throw(5);
-      frame1.throw(10);
+      frame1.throw(5);
       expect(frame1.is_strike()).toBe(false);
       expect(frame1.is_spare()).toBe(true);
     });
@@ -62,6 +62,29 @@ describe("Player", function() {
       game.move(1);
       game.move(2);
       expect(game.results[0].has_two()).toBe(true);
+    });
+
+    it ('should calculate points',function(){
+      game.move(1);
+      game.move(2);
+      game.calculateScore(0);
+      expect(game.points[0]).toBe(3);
+    });
+
+    it ('should calculate points for spare',function(){
+      game.move(3);
+      game.move(7);
+      game.move(5);
+      game.calculateScore(0);
+      expect(game.points[0]).toBe(15);
+    });
+
+    it ('should calculate points for strike',function(){
+      game.move(10);
+      game.move(10);
+      game.move(10);
+      game.calculateScore(0);
+      expect(game.points[0]).toBe(30);
     });
   });
 
