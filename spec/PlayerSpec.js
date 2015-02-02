@@ -1,5 +1,19 @@
 describe("Player", function() {
-  // var player;
+  var game;
+  var frame1;
+  var frame2;
+
+  beforeEach(function() {
+    game = new Game();
+    frame1 = new Frame(4);
+    frame2 = new Frame(10);
+  });
+
+  describe('frames',function(){
+    it('should record throws',function(){
+      expect(frame1.is_strike()).toBe(false);
+    });
+  });
   // var song;
 
   // beforeEach(function() {
