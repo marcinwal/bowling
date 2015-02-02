@@ -1,8 +1,8 @@
 //round object for bowling single round
 
 var REG_MOVES = 10;
-var BONUS_MOVES = 2;
 var PINS = 10;
+var BONUS = 2; //extra throws/frames
 
 var Frame = function(result) {
   this.pins1 = null;
@@ -71,6 +71,15 @@ Game.prototype.is_last_spare = function(){
   } 
   return false;
 }
+
+Game.prototype.is_end = function() {
+  if((this.results.length >= REG_MOVES) && (!this.is_last_strike()))
+    {return true;}
+  if (this.results.length >= REG_MOVES + BONUS){
+    return true;
+  }
+  return false;
+};
 
 
 
