@@ -155,12 +155,17 @@ Game.prototype.getNext2ndThrow = function(id_frame){
 }
 
 Game.prototype.calculateScore = function(id_frame){
-  this.points[id_frame] = this.results[id_frame].sum();
+  if (typeof this.results[id_frame] != 'undefined')
+  {  
+    this.points[id_frame] = this.results[id_frame].sum();
+  } else
+  {
+    return 0;
+  }
   if ((this.results[id_frame].is_spare()) || (this.results[id_frame].is_strike()))
   {
     this.points[id_frame] += this.getNextThrow(id_frame);
   }
-
   if (this.results[id_frame].is_strike())
   {
     this.points[id_frame] += this.getNext2ndThrow(id_frame);
