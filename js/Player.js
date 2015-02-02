@@ -12,6 +12,16 @@ var Frame = function(result) {
   this.nextFrame = true;
 };
 
+Frame.prototype.sum = function(){
+  if (this.pins2 === null){
+    return this.pins1;
+  }else
+  {
+    return this.pins1+this.pins2;
+  }
+};
+
+
 Frame.prototype.throw = function(result){
   if (this.pins1 === null) 
   {
@@ -33,7 +43,7 @@ Frame.prototype.has_two = function(){
 };
 
 Frame.prototype.is_spare = function(){
-  if(this.pins2 === PINS)
+  if(((this.pins1 + this.pins2)  === PINS) && (this.pins1 != PINS))
   {
     this.spare = true;
   }else
@@ -59,9 +69,11 @@ Frame.prototype.is_strike = function() {
 //Game object for the whole bowling
 var Game = function() {
   this.score = 0;
-  this.results = [];
-  this.moves = 0;
-  this.nextFrame = true;
+  this.results = []; //recorded hits
+  this.moves = 0; //current frame
+  this.nextFrame = true; //if we closed the frame
+  this.points = []; //points per frame
+  this.hits = [];
 };
 
 
@@ -91,14 +103,14 @@ Game.prototype.is_end = function() {
   return false;
 };
 
-
-
 Game.prototype.move = function(pins_hit) {
+  this.hits.push(pins_hit);
   if(this.nextFrame){    //next frame with 2 throws
     var fr = new Frame();
     fr.throw(pins_hit);
     this.results.push(fr);
     if (fr.is_strike()){
+
       this.moves += 1;  //closing the frame
       this.nextFrame = true;
     } else
@@ -113,6 +125,45 @@ Game.prototype.move = function(pins_hit) {
   }
 };
 
-Game.prototype.calculate_points = function(round) {
+Game.prototype.getNextThrow = function(id_frame){
+ if (typeof this.results[id_frame+1] != 'undefined')
+ { 
+  return this.results[id_frame+1].pins1;
+ } else 
+ {
+  return 0;
+ }
+};
+
+Game.prototype.getNext2ndThrow = function(id_frame){
+ if(typeof this.results[id_frame+1] != 'undefined') 
+ { 
+  if (this.results[id_frame+1].is_strike)
+  {  
+    if(typeof this.results[id_frame+2] != 'undefined')
+    {
+      return this.results[id_frame+2].pins1;
+    }  
+  }else
+  { if(this.results[id_frame+1].pins2 != null)
+    {
+      return this.results[id_frame+1].pins2;
+    }
+  }
+ }
+ return 0;
+}
+
+Game.prototype.calculateScore = function(id_frame){
+  this.points[id_frame] = this.results[id_frame].sum();
+  if ((this.results[id_frame].is_spare()) || (this.results[id_frame].is_strike()))
+  {
+    this.points[id_frame] += this.getNextThrow(id_frame);
+  }
+
+  if (this.results[id_frame].is_strike())
+  {
+    this.points[id_frame] += this.getNext2ndThrow(id_frame);
+  }
 
 };
