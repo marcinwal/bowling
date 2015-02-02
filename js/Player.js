@@ -5,24 +5,21 @@ var BONUS_MOVES = 2;
 var PINS = 10;
 
 var Frame = function(result) {
-  this.pins1 = result;
-  if(result === PINS)
-  {
-    this.strike = true;
-    this.spare = false;
-  }
-  else
-  {
-    this.strike = false;
-  }
+  this.pins1 = null;
   this.pins2 = null;
+  this.spare = null;
+  this.strike = null;
 };
 
-Frame.prototype.secondThrow = function(result){
-  this.pins2 = result;
-  if(result === PINS)
+Frame.prototype.throw = function(result){
+  if (this.pins1 === null) 
   {
-    this.spare = true;
+    this.pins1 = result;
+    this.is_strike();
+  }else
+  {
+    this.pins2 = result;
+    this.is_spare();
   }
 };
 
@@ -30,11 +27,15 @@ Frame.prototype.is_spare = function(){
   if(this.pins2 === PINS)
   {
     this.spare = true;
+  }else
+  {
+    this.spare = false;
   }  
+  return this.spare;
 };
 
 Frame.prototype.is_strike = function() {
-  if(this.throw1 === 10)
+  if(this.pins1 === PINS)
   {
     this.strike = true;
   }
@@ -74,15 +75,10 @@ Game.prototype.is_last_strike = function(){
   return false;
 }
 
+
+
 Game.prototype.move = function(pins_hit) {
-  if(!this.is_end())
-  {  
-   var frame = new Frame(pins_hit);
-   console.log(frame);
-   this.results.push(frame);
-   this.moves += 1;
-   return frame;    
-  } else {return null;}
+
 };
 
 Game.prototype.calculate_points = function(round) {
