@@ -52,6 +52,17 @@ describe("Player", function() {
       game.move(2);
       expect(game.nextFrame).toBe(true);
     });
+
+    it ('should have has not two ',function(){
+      game.move(2);
+      expect(game.results[0].has_two()).toBe(false);
+    });
+
+    it ('has two throws in 1st frame',function(){
+      game.move(1);
+      game.move(2);
+      expect(game.results[0].has_two()).toBe(true);
+    });
   });
 
 
