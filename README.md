@@ -1,1 +1,4 @@
-It is a JS program for bowling score card.
+# Bowling
+
+MakersAcdemy project to create bowling game card.
+
